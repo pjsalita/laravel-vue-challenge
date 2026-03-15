@@ -2,7 +2,12 @@ import { defineStore } from 'pinia';
 import type { ToastServiceMethods } from 'primevue/toastservice';
 import api from '@/lib/api';
 import { getErrorMessage } from '@/lib/utils';
-import type { ContainerTypes, Drink, MachineStatus } from '@/types';
+import type {
+  ApiResponse,
+  ContainerTypes,
+  Drink,
+  MachineStatus,
+} from '@/types';
 
 const TOAST_DURATION = 3000;
 
@@ -20,9 +25,10 @@ export const useMachineStore = defineStore('machine', {
     },
     async fetchDrinks() {
       try {
-        const { data } = await api.get<Drink[]>('/machine/drinks');
-        this.drinks = data;
+        const { data } = await api.get<ApiResponse<Drink[]>>('/machine/drinks');
+        this.drinks = data.data;
       } catch (e: unknown) {
+        console.error(e);
         this.toast?.add({
           severity: 'error',
           summary: 'Error',
@@ -33,9 +39,11 @@ export const useMachineStore = defineStore('machine', {
     },
     async fetchStatus() {
       try {
-        const { data } = await api.get<MachineStatus>('/machine/status');
-        this.status = data;
+        const { data } =
+          await api.get<ApiResponse<MachineStatus>>('/machine/status');
+        this.status = data.data;
       } catch (e: unknown) {
+        console.error(e);
         this.toast?.add({
           severity: 'error',
           summary: 'Error',
@@ -48,9 +56,11 @@ export const useMachineStore = defineStore('machine', {
       this.loading = true;
 
       try {
-        const { data } = await api.post(`/machine/brew/${drink.id}`);
+        const { data } = await api.post<ApiResponse<MachineStatus>>(
+          `/machine/brew/${drink.slug}`,
+        );
         this.active = true;
-        this.status = data.remaining;
+        this.status.containers = data.data.containers;
         this.toast?.add({
           severity: 'success',
           summary: 'Success',
@@ -59,6 +69,7 @@ export const useMachineStore = defineStore('machine', {
         });
         setTimeout(() => (this.active = false), 1000);
       } catch (e: unknown) {
+        console.error(e);
         this.toast?.add({
           severity: 'error',
           summary: 'Error',
@@ -73,9 +84,12 @@ export const useMachineStore = defineStore('machine', {
       this.loading = true;
 
       try {
-        const { data } = await api.post(`/machine/fill/${type}`, {
-          quantity,
-        });
+        const { data } = await api.post<ApiResponse<MachineStatus>>(
+          `/machine/fill/${type}`,
+          {
+            quantity,
+          },
+        );
         this.toast?.add({
           severity: 'success',
           summary: 'Success',
@@ -83,10 +97,14 @@ export const useMachineStore = defineStore('machine', {
           life: TOAST_DURATION,
         });
 
-        if (this.status && data[type]) {
-          this.status = { ...this.status, [type]: data[type] };
+        if (this.status?.containers && data.data.containers[type]) {
+          this.status.containers = {
+            ...this.status.containers,
+            [type]: data.data.containers[type],
+          };
         }
       } catch (e: unknown) {
+        console.error(e);
         this.toast?.add({
           severity: 'error',
           summary: 'Error',
@@ -101,7 +119,9 @@ export const useMachineStore = defineStore('machine', {
       this.loading = true;
 
       try {
-        const { data } = await api.post(`/machine/empty/${type}`);
+        const { data } = await api.post<ApiResponse<MachineStatus>>(
+          `/machine/empty/${type}`,
+        );
         this.toast?.add({
           severity: 'success',
           summary: 'Success',
@@ -109,10 +129,14 @@ export const useMachineStore = defineStore('machine', {
           life: TOAST_DURATION,
         });
 
-        if (this.status && data[type]) {
-          this.status = { ...this.status, [type]: data[type] };
+        if (this.status?.containers && data.data.containers[type]) {
+          this.status.containers = {
+            ...this.status.containers,
+            [type]: data.data.containers[type],
+          };
         }
       } catch (e: unknown) {
+        console.error(e);
         this.toast?.add({
           severity: 'error',
           summary: 'Error',

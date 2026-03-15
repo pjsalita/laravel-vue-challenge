@@ -32,7 +32,7 @@ defineEmits(['brew']);
 const store = useMachineStore();
 function tooltipOptions(drink: Drink) {
   return {
-    value: `<p>${drink.label}</p><small class="text-xs text-neutral-400 block">Water: ${drink.waterMl}ml</small><small class="text-xs text-neutral-400">Coffee: ${drink.coffeeGrams}g</small>`,
+    value: `<p>${drink.name}</p><small class="text-xs text-neutral-400 block">Water: ${drink.water}${drink.water_unit}</small><small class="text-xs text-neutral-400">Coffee: ${drink.coffee}${drink.coffee_unit}</small>`,
     escape: false,
   };
 }

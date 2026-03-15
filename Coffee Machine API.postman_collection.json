@@ -1,0 +1,304 @@
+{
+  "info": {
+    "_postman_id": "d9d50d78-5725-458a-909b-546509aeadff",
+    "name": "Coffee Machine API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "6663092"
+  },
+  "item": [
+    {
+      "name": "Container",
+      "item": [
+        {
+          "name": "Fill Water Container",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "7f9b341f-a84a-4399-84f0-31090b1f4679"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/machine/fill/water",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "fill",
+                "water"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fill Coffee Container",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "quantity",
+                  "value": "100",
+                  "type": "text",
+                  "uuid": "7f9b341f-a84a-4399-84f0-31090b1f4679"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/machine/fill/coffee",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "fill",
+                "coffee"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Empty Water Container",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/machine/empty/water",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "empty",
+                "water"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Empty Coffee Container",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/machine/empty/coffee",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "empty",
+                "coffee"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Drinks",
+      "item": [
+        {
+          "name": "Get Drinks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/machine/drinks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "drinks"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Make Espresso",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/machine/brew/espresso",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "brew",
+                "espresso"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Make Double Espresso",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/machine/brew/double_espresso",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "brew",
+                "double_espresso"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Make Americano",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/machine/brew/americano",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "machine",
+                "brew",
+                "americano"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Check Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/machine/status",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "machine",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}

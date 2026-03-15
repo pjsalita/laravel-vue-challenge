@@ -1,9 +1,12 @@
 <template>
   <BaseContainer
+    id="coffee"
+    type="coffee"
+    name="Coffee"
     :current="current"
     :capacity="capacity"
     :percentage="percentage"
-    unit="g"
+    :unit="store.status.containers?.coffee?.unit"
   >
     <template #content>
       <div
@@ -18,7 +21,7 @@
 
     <template #fill-form>
       <FillForm
-        label="Coffee"
+        name="Coffee"
         unit="g"
         color="#B55309"
         :current="current"
@@ -40,7 +43,13 @@ import { useMachineStore } from '@/stores/machine';
 const POWDER_PATTERN = `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='20' height='20' fill='%23b45309'/%3E%3Ccircle cx='4' cy='5' r='1.2' fill='rgba(0,0,0,0.2)'/%3E%3Ccircle cx='14' cy='3' r='0.8' fill='rgba(0,0,0,0.15)'/%3E%3Ccircle cx='8' cy='12' r='1.1' fill='rgba(0,0,0,0.18)'/%3E%3Ccircle cx='16' cy='14' r='0.9' fill='rgba(0,0,0,0.16)'/%3E%3Ccircle cx='2' cy='17' r='1' fill='rgba(0,0,0,0.17)'/%3E%3Ccircle cx='18' cy='18' r='0.7' fill='rgba(0,0,0,0.14)'/%3E%3C/svg%3E")`;
 
 const store = useMachineStore();
-const current = computed(() => store.status.coffee?.current as number);
-const capacity = computed(() => store.status.coffee?.capacity as number);
-const percentage = computed(() => store.status.coffee?.percentage as number);
+const current = computed(
+  () => store.status.containers?.coffee?.current as number,
+);
+const capacity = computed(
+  () => store.status.containers?.coffee?.capacity as number,
+);
+const percentage = computed(
+  () => store.status.containers?.coffee?.percentage as number,
+);
 </script>

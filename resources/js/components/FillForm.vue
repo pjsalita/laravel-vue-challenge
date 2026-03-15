@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-3 p-5" :style="{ '--btn-color': color }">
     <div class="flex items-center gap-2">
       <span class="text-[0.65rem] font-normal tracking-[0.18em] uppercase">
-        {{ label }}
+        {{ name }}
       </span>
     </div>
     <div class="grid grid-cols-2 gap-2">
@@ -49,11 +49,12 @@
         class="min-w-[60px] rounded border px-4 py-2 font-mono text-[0.6rem] tracking-[0.15em] transition"
         :class="{
           'border-(--btn-color) text-(--btn-color)': color,
-          'cursor-not-allowed opacity-35': !quantity || quantity < 1 || loading,
+          'cursor-not-allowed opacity-35':
+            !quantity || quantity <= 0 || loading,
           'cursor-pointer hover:bg-white/5':
-            quantity && quantity >= 1 && !loading,
+            quantity && quantity > 0 && !loading,
         }"
-        :disabled="!quantity || quantity < 1 || loading"
+        :disabled="!quantity || quantity <= 0 || loading"
         @click="submit"
       >
         <span v-if="!loading">FILL</span>
@@ -90,7 +91,7 @@ const canFillFull = computed(
 const canEmpty = computed(() => props.current != null && props.current > 0);
 
 const submit = () => {
-  if (!quantity.value || quantity.value < 1) {
+  if (!quantity.value || quantity.value <= 0) {
     return;
   }
 
@@ -102,9 +103,9 @@ const fillFull = () => {
     return;
   }
 
-  const amount = Math.floor(props.capacity - props.current);
+  const amount = props.capacity - props.current;
 
-  if (amount < 1) {
+  if (amount <= 0) {
     return;
   }
 

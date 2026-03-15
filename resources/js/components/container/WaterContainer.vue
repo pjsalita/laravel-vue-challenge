@@ -1,9 +1,12 @@
 <template>
   <BaseContainer
+    id="water"
+    type="water"
+    name="Water"
     :current="current"
     :capacity="capacity"
     :percentage="percentage"
-    unit="ml"
+    :unit="store.status.containers?.water?.unit"
   >
     <template #content>
       <div
@@ -27,8 +30,8 @@
 
     <template #fill-form>
       <FillForm
-        label="Water"
-        unit="ml"
+        name="Water"
+        unit="L"
         color="#004D7F"
         :current="current"
         :capacity="capacity"
@@ -47,9 +50,15 @@ import FillForm from '@/components/FillForm.vue';
 import { useMachineStore } from '@/stores/machine';
 
 const store = useMachineStore();
-const current = computed(() => store.status.water?.current as number);
-const capacity = computed(() => store.status.water?.capacity as number);
-const percentage = computed(() => store.status.water?.percentage as number);
+const current = computed(
+  () => store.status.containers?.water?.current as number,
+);
+const capacity = computed(
+  () => store.status.containers?.water?.capacity as number,
+);
+const percentage = computed(
+  () => store.status.containers?.water?.percentage as number,
+);
 </script>
 
 <style scoped>

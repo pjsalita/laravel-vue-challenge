@@ -1,41 +1,49 @@
 export type ContainerTypes = 'water' | 'coffee';
 
-export interface ContainerProps {
+export interface Container {
+  id: number | string;
+  type: ContainerTypes;
+  name: string;
   current: number;
   capacity: number;
-  percentage?: number;
-  unit?: string;
+  unit: string;
 }
 
+export type ContainerProps = Container & {
+  percentage?: number;
+};
+
 export interface FillFormProps {
-  label: string;
-  unit: string;
+  name: string;
   color: string;
   loading: boolean;
   current: number;
   capacity: number;
+  unit: string;
 }
 
 export interface MachineStatus {
-  water: ContainerProps;
-  coffee: ContainerProps;
+  containers: {
+    [key in ContainerTypes]: ContainerProps;
+  };
   drinks?: {
-    [key: string]: DrinkReadiness;
+    [key: string]: DrinkStatus;
   };
 }
 
-export type DrinkReadiness =
-  | 'ready'
-  | 'insufficient_water'
-  | 'insufficient_coffee'
-  | 'insufficient_water_and_coffee';
+export interface DrinkStatus {
+  enough_water: boolean;
+  enough_coffee: boolean;
+}
 
 export interface Drink {
-  id: string;
+  id: number | string;
   slug: string;
-  label: string;
-  waterMl: number;
-  coffeeGrams: number;
+  name: string;
+  water: number;
+  water_unit: string;
+  coffee: number;
+  coffee_unit: string;
   active: boolean;
   icon?: string;
 }

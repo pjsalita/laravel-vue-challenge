@@ -10,26 +10,23 @@
   <Popover ref="popoverRef">
     <div v-if="store.status" class="min-w-48">
       <h3 class="m-0 mb-2 text-base font-semibold">Machine Status</h3>
-      <dl class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
-        <dt>Water</dt>
-        <dd :class="levelClass(store.status.water)">
-          {{ store.status.water?.current ?? 0 }} /
-          {{ store.status.water?.capacity ?? 0 }} ml ({{
-            store.status.water?.percentage
-          }}%)
-        </dd>
-        <dt>Coffee</dt>
-        <dd :class="levelClass(store.status.coffee)">
-          {{ store.status.coffee?.current ?? 0 }} /
-          {{ store.status.coffee?.capacity ?? 0 }} g ({{
-            store.status.coffee?.percentage
-          }}%)
-        </dd>
-      </dl>
+      <template v-if="Object.keys(store.status.containers ?? {}).length">
+        <h4 class="m-0 mt-2 mb-1 text-sm font-medium">Containers</h4>
+        <ul class="m-0 list-inside list-disc p-0 text-sm">
+          <li
+            v-for="[type, container] in containerEntries"
+            :key="type"
+            :class="levelClass(container)"
+          >
+            {{ container.name }} - {{ container.current }} /
+            {{ container.capacity }} {{ container.unit }} ({{
+              container.percentage ?? 0
+            }}%)
+          </li>
+        </ul>
+      </template>
 
-      <template
-        v-if="store.status.drinks && Object.keys(store.status.drinks).length"
-      >
+      <template v-if="Object.keys(store.status.drinks ?? {}).length">
         <h4 class="m-0 mt-2 mb-1 text-sm font-medium">Drinks</h4>
         <ul class="m-0 list-inside list-disc p-0 text-sm">
           <li
@@ -37,7 +34,7 @@
             :key="drinkId"
             :class="readinessClass(readiness)"
           >
-            {{ drinkLabel(drinkId) }} — {{ readinessLabel(readiness) }}
+            {{ drinkLabel(drinkId) }} - {{ readinessLabel(readiness) }}
           </li>
         </ul>
       </template>
@@ -51,28 +48,28 @@ import Popover from 'primevue/popover';
 import { computed, ref } from 'vue';
 import { useMachineStore } from '@/stores/machine';
 
-import type { ContainerProps, DrinkReadiness } from '@/types';
+import type { ContainerProps, DrinkStatus } from '@/types';
 
 const store = useMachineStore();
 
 const LOW_LEVEL_PERCENT = 30;
 
-const levelClass = (container: ContainerProps | undefined): string => {
-  return (container?.percentage || 0) <= LOW_LEVEL_PERCENT
+const levelClass = (container: ContainerProps): string => {
+  return (container.percentage ?? 0) <= LOW_LEVEL_PERCENT
     ? 'text-red-600'
     : 'text-green-600';
 };
 
-const readinessLabel = (r: DrinkReadiness | undefined): string => {
-  if (!r || r === 'ready') {
+const readinessLabel = (status: DrinkStatus | undefined): string => {
+  if (!status || (status.enough_water && status.enough_coffee)) {
     return 'Ready';
   }
 
-  if (r === 'insufficient_water') {
+  if (!status.enough_water) {
     return 'Insufficient Water';
   }
 
-  if (r === 'insufficient_coffee') {
+  if (!status.enough_coffee) {
     return 'Insufficient Coffee';
   }
 
@@ -80,13 +77,13 @@ const readinessLabel = (r: DrinkReadiness | undefined): string => {
 };
 
 const readinessClass = (
-  r: DrinkReadiness | undefined,
+  status: DrinkStatus | undefined,
 ): Record<string, boolean> => {
-  const ready = r === 'ready';
+  const ready = status?.enough_water && status?.enough_coffee;
 
   return {
-    'text-green-600': ready,
-    'text-red-600': !ready && r !== undefined,
+    'text-green-600': ready ?? false,
+    'text-red-600': !(ready ?? false) && status !== undefined,
   };
 };
 
@@ -95,15 +92,19 @@ const drinkLabel = (drinkId: string): string => {
   const byId = drinks.find((d) => d.id === drinkId);
 
   if (byId) {
-    return byId.label;
+    return byId.name;
   }
 
   const bySlug = drinks.find((d) => d.slug === drinkId);
 
-  return bySlug?.label ?? '';
+  return bySlug?.name ?? '';
 };
 
 const popoverRef = ref<InstanceType<typeof Popover> | null>(null);
+
+const containerEntries = computed(() =>
+  store.status.containers ? Object.entries(store.status.containers) : [],
+);
 
 const drinkEntries = computed(() =>
   store.status.drinks ? Object.entries(store.status.drinks) : [],
