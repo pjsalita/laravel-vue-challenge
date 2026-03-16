@@ -80,6 +80,17 @@ App is available at http://localhost:8000
 
 ---
 
+## Configuration
+
+**MACHINE_STATE_STORAGE** – How the coffee machine state is persisted. Set in `.env`.
+
+- `database` (default) – state stored in the database
+- `file` – state stored in a file
+- `cache` – state stored via Laravel cache
+- `redis` – state stored in Redis
+
+---
+
 ## Assumptions
 
 1. **Containers start empty.** Containers begin at 0.
