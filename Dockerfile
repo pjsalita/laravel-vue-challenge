@@ -43,6 +43,12 @@ RUN --mount=type=cache,target=/root/.npm \
 COPY . .
 RUN php artisan storage:link
 
+# Entrypoint
+COPY docker/entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
 EXPOSE 8000
 EXPOSE 5173
 

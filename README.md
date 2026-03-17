@@ -27,27 +27,13 @@ git clone git@github.com:pjsalita/laravel-vue-challenge.git
 
 ### Docker
 
-1. Copy environment file:
-   ```bash
-   cp .env.example .env
-   ```
-2. Generate app key:
-   ```bash
-   docker compose run --rm app php artisan key:generate
-   ```
-3. Build and start the app:
+1. Build and start the app:
 
    ```bash
    docker compose up -d --build
    ```
 
-4. Run migrations and seeders:
-
-   ```bash
-   docker exec app php artisan migrate --seed
-   ```
-
-5. (Optional) Stop the app once finished:
+2. (Optional) Stop the app once finished:
    ```bash
    docker compose down
    ```

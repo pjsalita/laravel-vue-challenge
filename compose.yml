@@ -13,17 +13,13 @@ services:
       - app_node_modules:/app/node_modules
       - app_vendor:/app/vendor
     ports:
-      - '8000:8000'
-      - '5173:5173'
+      - "${APP_PORT:-8000}:8000"
+      - 5173:5173
     networks:
       - app-network
     environment:
-      - DB_CONNECTION=mysql
-      - DB_HOST=mysql
       - REDIS_HOST=redis
     depends_on:
-      mysql:
-        condition: service_healthy
       redis:
         condition: service_healthy
     command: >
@@ -46,28 +42,7 @@ services:
       timeout: 5s
       retries: 10
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
-      MYSQL_DATABASE: ${DB_DATABASE:-coffee_machine}
-      MYSQL_USER: ${DB_USERNAME:-bs_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-bs_password}
-    volumes:
-      - mysql_data:/var/lib/mysql
-    ports:
-      - '3310:3306' # changed to 3310 to avoid conflict with other ports
-    networks:
-      - app-network
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
 volumes:
   redis_data:
-  mysql_data:
   app_node_modules:
   app_vendor:
