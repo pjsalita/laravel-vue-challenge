@@ -82,7 +82,7 @@ App is available at http://localhost:8000
 1. **Containers start empty.** Containers begin at 0.
 2. **Ristretto is not exposed as an endpoint.** Ristretto is listed under Coffee machine requirements but is not listed in the API/UI requirements. Assuming this is a requirement forgot to add in the other parts of the documentation, already prepared the code for it to add later on.
 3. **No authentication.** Out of scope for this assessment.
-4. **ContainerInterface interface name.** The provided `ContainerInterface.php` file uses `interface Container` which violates PSR-4 Autoloading Standard. Assuming this is a mistake, changed it to `interface ContainerInterface` to comply.
+4. **ContainerInterface file name.** The provided `ContainerInterface.php` file uses `interface Container` which violates PSR-4 Autoloading Standard. Assuming this is a mistake, changed the filename to `Container.php` to comply.
 5. **Ports in docker-compose.** Default ports of `Redis(6379)` and `Mysql(3306)` are changed in `docker-compose.yml` to uncommon ports `6400` and `3310` respectively in case the default ports are already in used to avoid conflict. In case of conflict, change to another port or stop other services that uses the conflicting ports.
 6. **Check Status inclusion.** "Check the status of the machine" requirement does not cite specifically what data to return, assumed container states and which drink can be brewed.
 7. **More drink/coffee types will be available in future.** Assumed that there will be more drink/coffee types to be added in the future so I had them save as records.

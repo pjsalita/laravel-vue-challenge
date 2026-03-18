@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface ContainerInterface
+interface Container
 {
     /**
      * @param float $quantity liter/grams to be added to the container

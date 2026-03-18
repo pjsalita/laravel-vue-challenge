@@ -3,11 +3,11 @@
 namespace App\Containers;
 
 use App\Concerns\FloatTrait;
-use App\Contracts\ContainerInterface;
+use App\Contracts\Container;
 use App\Exceptions\ContainerInsufficientException;
 use App\Exceptions\ContainerOverflowException;
 
-abstract class AbstractContainer implements ContainerInterface
+abstract class AbstractContainer implements Container
 {
     use FloatTrait;
 
